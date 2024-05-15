@@ -1,0 +1,76 @@
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Eletrônica</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="urna">
+        <div class="tela">
+            <div class="container-voto">
+                <div class="info-voto">
+                    <div class="info-voto-titulo">
+                        <span>SEU VOTO PARA</span>
+                    </div>
+                    <div class="info-voto-cargo">
+                        <span>VEREADOR</span>
+                    </div>
+                    <div class="info-voto-numeros">
+                        <div class="numero pisca"></div>
+                        <div class="numero"></div>
+                    </div>
+                    <div class="info-voto-detalhes">
+                        Nome: Darth Vader<br> Partido: Império<br> Vice-Prefeito: Darth Maul
+                    </div>
+                </div>
+                <div class="info-imagem">
+                    <div class="info-imagem-prefeito">
+                        <img src="" alt="" /> Prefeito
+                    </div>
+                    <div class="info-imagem-vice">
+                        <img src="" alt="" /> Vice-Prefeito
+                    </div>
+                </div> 
+            </div>
+            <div class="instrucoes">
+                Aperte a tela:<br/> CONFIMA para CONFIRMAR este voto<br/> CORRIGE para REINICIAR este voto
+            </div>
+        </div>
+        <div class="teclado">
+            <div class="teclado--linha">
+                <div class="teclado--botao" onClick="clicou('1')">1</div>
+                <div class="teclado--botao" onClick="clicou('2')">2</div>
+                <div class="teclado--botao" onClick="clicou('3')">3</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao" onClick="clicou('4')">4</div>
+                <div class="teclado--botao" onClick="clicou('5')">5</div>
+                <div class="teclado--botao" onClick="clicou('6')">6</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao" onClick="clicou('7')">7</div>
+                <div class="teclado--botao" onClick="clicou('8')">8</div>
+                <div class="teclado--botao" onClick="clicou('9')">9</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao" onClick="clicou('0')">0</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao botao--branco" onClick="branco()">BRANCO</div>
+                <div class="teclado--botao botao--corrige" onClick="corrige()">CORRIGE</div>
+                <div class="teclado--botao botao--confirma" onClick="confirma()">CONFIRMA</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="etapas.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

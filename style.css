@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.urna {
+    background-color: #ffffff;
+    padding: 30px;
+    display: flex;
+}
+
+.tela {
+    width: 500px;
+    height: 320px;
+    background: linear-gradient(to bottom, #e0e0e0, #d2d2d2);
+    border: 2px solid #999999;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.teclado {
+    background-color: #e0e0e0;
+    margin-left: 30px;
+}
+
+.teclado--linha {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.teclado--botao {
+    width: 70px;
+    height: 40px;
+    background-color: #999999;
+    color: #ffffff;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.botao--branco {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 15px;
+}
+
+.botao--corrige,
+.botao--confirma {
+    font-size: 15px;
+    width: 90px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.botao--corrige {
+    background-color: #f0ad4e;
+}
+
+.botao--confirma {
+    background-color: #5cb85c;
+}
+
+.numero {
+    display: inline-block;
+    width: 30px;
+    height: 40px;
+    border: 1px solid #999999;
+    text-align: center;
+    line-height: 40px;
+    font-size: 25px;
+    background-color: #ffffff;
+    margin: 5px;
+}
+
+.pisca {
+    animation: pisca 1s infinite;
+}
+
+.info-imagem {
+    border: 1px solid #999999;
+    background-color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    max-width: 150px;
+    height: auto;
+    overflow: hidden;
+}
+
+.info-imagem img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+}
+
+.aviso--grande,
+.aviso--gigante {
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.aviso--grande {
+    font-size: 40px;
+    color: #d9534f;
+}
+
+.aviso--gigante {
+    font-size: 70px;
+    color: #d9534f;
+}
