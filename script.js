@@ -1,189 +1,134 @@
-/*Variável de controle de interface*/
-let seuVotoPara = document.querySelector('.info-voto-titulo span')
-let cargo = document.querySelector('.info-voto-cargo')
-let descricao = document.querySelector('.info-voto-detalhes')
-let aviso = document.querySelector('.instrucoes')
-let lateral = document.querySelector('.info-imagem')
-let numeros = document.querySelector('.info-voto-numeros')
+/* Variáveis de controle de interface */
+let seuVotoPara = document.querySelector('.info-voto-titulo span'); // Elemento que exibe "Seu voto para"
+let cargo = document.querySelector('.info-voto-cargo'); // Elemento que exibe o cargo (presidente, prefeito, etc)
+let descricao = document.querySelector('.info-voto-detalhes'); // Elemento que exibe a descrição do candidato (nome, partido, etc)
+let aviso = document.querySelector('.instrucoes'); // Elemento que exibe instruções ou avisos
+let lateral = document.querySelector('.info-imagem'); // Elemento que exibe imagens do candidato
+let numeros = document.querySelector('.info-voto-numeros'); // Elemento que exibe os números digitados
 
-/*Variável de controle de ambiente*/
-let etapaAtual = 0
-let numero = ''
-let votoBranco = false
-let votos = []
+/* Variáveis de controle de ambiente */
+let etapaAtual = 0; // Índice da etapa atual
+let numero = ''; // Armazena o número digitado
+let votoBranco = false; // Indica se o voto é em branco
+let votos = []; // Lista para armazenar os votos
 
 function comecarEtapa() {
-    // seleciona a etapa atual com base no valor
-    // da variável etapaAtual
-    let etapa = etapas[etapaAtual]
+    let etapa = etapas[etapaAtual]; // Seleciona a etapa atual
+    let numeroHtml = '';
+    numero = ''; // Reseta o número digitado
+    votoBranco = false; // Reseta o voto em branco
 
-    // inicializando variáveis para armazenar o HTML
-    // dos números de votação
-    let numeroHtml = ''
-    let numero = ''
-    let votoBranco = false
-
-    // criar os elementos HTML para exibir os números de votação
+    // Cria os campos para os dígitos dos números
     for (let i = 0; i < etapa.numeros; i++) {
-        // se for o primeiro número, adiciona a classe 'pisca' para animação
         if (i === 0) {
-            numero += '<div class="numero pisca"></div>'
+            numeroHtml += '<div class="numero pisca"></div>'; // Primeiro campo piscando
         } else {
-            numero += '<div class="numero"></div>'
+            numeroHtml += '<div class="numero"></div>'; // Outros campos
         }
     }
 
-    // Escondendo o elemento HTML que exibe "Seu voto para..."
-    seuVotoPara.style.display = 'none'
-
-    // Atualizando o elemento HTML que exibe titulo de etapa (cargo)
-    cargo.innerHTML = etapa.titulo
-
-    // Limpa o elemento HTML que exibe a descrição do candidato
-    descricao.innerHTML = ''
-
-    // Escondendo o aviso de voto nulo/branco
-    aviso.style.display = 'none'
-
-    // Limpa o Elemento HTML que exibe as fotos dos candidatos
-    lateral.innerHTML = ''
-
-    // atualizar o elemento HTML que exibe os números de votação
-    numeros.innerHTML = numeroHtml
+    lateral.style.display = 'none';
+    seuVotoPara.style.display = 'none'; // Esconde "Seu voto para"
+    cargo.innerHTML = etapa.titulo; // Exibe o título do cargo
+    descricao.innerHTML = ''; // Limpa a descrição
+    aviso.style.display = 'none'; // Esconde avisos
+    lateral.innerHTML = ''; // Limpa imagens
+    numeros.innerHTML = numeroHtml; // Exibe os campos dos números
 }
 
-function atualizarInterface() {
-    // selecionado a etapa atual 
-    let etapa = etapas[etapaAtual]
+/* Funções */
+function atualizaInterface() {
+    let etapa = etapas[etapaAtual]; // Seleciona a etapa atual
+    let candidato = etapa.candidatos.filter((item) => item.numero === numero); // Encontra o candidato pelo número
 
-    // filtra os candidatos da etapa atual para encontrar
-    // o candidato correspondente ao número digitado
-    let candidato = etapa.candidatos.filter((item) => {
-        if (item.numero === numero) {
-            return true
-        } else {
-            return false
-        }
-    })
+    // Exibe no console o candidato encontrado (apenas para depuração)
+    console.log("Candidato: ", candidato);
 
-    //se um candidato correspondente foi encontrado
-    if (candidato.lenght > 0) {
-        // seleciona o primeiro candidato da lista 
-        //(pode haver apenas um candidato com o mesmo número)
-        candidato = [0]
+    if (candidato.length > 0) {
+        candidato = candidato[0]; // Seleciona o primeiro candidato encontrado
+        seuVotoPara.style.display = 'block'; // Exibe "Seu voto para"
+        aviso.style.display = 'block'; // Exibe o aviso
+        descricao.innerHTML = `Nome: ${candidato.nome}<br/>Partido: ${candidato.partido}<br/>Vice: ${candidato.vice}`; // Exibe detalhes do candidato
 
-        // exibe o elemento HTML que mostra "seu voto para..."
-        seuVotoPara.style.display = 'block'
-
-        // exibe o aviso de voto branco/nulo
-        aviso.style.display = 'block'
-
-        // atualiza o elemento HTML que exibe o nome, partido e vice 
-        descricao.innerHtml = `Nome: ${candidato.nome}<br/>Partido: ${candidato.partido}<br/>Vice: ${candidato.vice}`
-
-        // cria o HTML para exibir as fotos do candidato
-        descricao.innerHtml = ''
+        // Cria o HTML para exibir as fotos do candidato
+        let fotosHtml = '';
         for (let i in candidato.fotos) {
             if (candidato.fotos[i].small) {
-                // verifica se a foto é pequena (small) e adiciona a 
-                //classe 'small' conforme necessário
-                fotosHtml += `<div class="info-imagem small"><img src="images/${candidato.fotos[i].url}" alt=""/>${candidato.fotos[i].legenda}</div>`
+                lateral.style.display = 'block';
+                fotosHtml += `<div class="info-imagem small"><img src="images/${candidato.fotos[i].url}" alt=""/>${candidato.fotos[i].legenda}</div>`;
             } else {
-                fotosHtml += `<div class="info-imagem"><img src="images/${candidato.fotos[i].url}" alt=""/>${candidato.fotos[i].legenda}</div>`
+                lateral.style.display = 'block';
+                fotosHtml += `<div class="info-imagem"><img src="images/${candidato.fotos[i].url}" alt=""/>${candidato.fotos[i].legenda}</div>`;
             }
         }
 
-        //atualiza o elemento HTML que exibe as fotos do candidatos
-        lateral.innerHTML = fotosHtml
-    }else{ // se nenhum candidato correspondente foi encontrado
-        // exibe o elemento HTML que mostra "Seu voto para..."
-        seuVotoPara.style.display = 'block'
-
-        // exibe o aviso de voto nulo/branco
-        aviso.style.display = 'block'
-
-        // atualiza o elemento HTML que exibe o aviso de voto nulo
-        descricao.innerHTML = '<div class="aviso--grande pisca">VOTO NULO</div>'
-
+        lateral.style.display = "block";
+        lateral.innerHTML = fotosHtml; // Exibe as fotos do candidato
+    } else {
+        seuVotoPara.style.display = 'block'; // Exibe "Seu voto para"
+        aviso.style.display = 'block'; // Exibe o aviso
+        descricao.innerHTML = '<div class="aviso--grande pisca">VOTO NULO</div>'; // Exibe aviso de voto nulo
     }
 }
 
 function clicou(n) {
-    // selecionando o elemento HTML com a classe 'numero pisca'
-    let elNumero = document.querySelector('.numero.pisca')
-
-    // Verifica se o elemento foi encontrado
+    let elNumero = document.querySelector('.numero.pisca'); // Seleciona o campo que está piscando
     if (elNumero !== null) {
-        // define o valor do número no elemento HTML
-        elNumero.innerHTML = n
+        elNumero.innerHTML = n; // Preenche o campo com o número clicado
+        numero += n; // Adiciona o número à variável global
 
-        // concatena o número ao valor da variável 'numero'
-        numero = `${numero}${n}`
-
-        // remove a class 'pisca' do número atual
-        elNumero.classList.remove('pisca')
-
-        // verificando se existe um próximo número na sequencia
+        elNumero.classList.remove('pisca'); // Remove o pisca do campo atual
         if (elNumero.nextElementSibling !== null) {
-            // adiciona a classe 'pisca' ao proximo numero na sequencia
-            elNumero.nextElementSibling.classList.add('pisca')
+            elNumero.nextElementSibling.classList.add('pisca'); // Faz o próximo campo piscar
         } else {
-            // se não houver o próximo número, chama a função para atualizar a interface
-            atualizarInterface()
+            atualizaInterface(); // Atualiza a interface se não houver próximo campo
         }
     }
 }
 
 function branco() {
-    //Verificar se nenhum número foi digitado
-    if(numero === ''){
-        //Define a variável votoBranco como true para indicar que voto é branco
-        votoBranco = true
-
-        //Exibe o elmento HTML que mostra "seu voto parap..."
-        seuVotoPara.style.display = 'block'
-
-        //Exibe o aviso de voto branco
-        aviso.style.display = 'block'
-
-        //Atualizando HTML que exibe o aviso de voto branco
-        descricao.innerHTML = '<div class="aviso--grande pisca">VOTO EM BRANCO</div>'
-
-        //Limpa o conteudo dos elementos HTML que exibe os números e as fotos dos canditados
-        numero.innerHTML = ''
-        lateral.innerHTML = ''
-    }else{
-        //Se algum número já foi digitado, exibe um alerta informando que não é possível votar em branco
-        alert("Para votar em BRANCO, não é possível digitar nenhum número")
-
+    if (numero === '') { // Verifica se nenhum número foi digitado
+        votoBranco = true; // Define o voto como em branco
+        seuVotoPara.style.display = 'block'; // Exibe "Seu voto para"
+        aviso.style.display = 'block'; // Exibe aviso de voto em branco
+        descricao.innerHTML = '<div class="aviso--grande pisca">VOTO EM BRANCO</div>'; // Exibe mensagem de voto em branco
+        numeros.innerHTML = ''; // Limpa os campos de números
+        lateral.innerHTML = ''; // Limpa as imagens
+    } else {
+        alert("Para votar em BRANCO, não pode digitar nenhum número"); // Alerta se números já foram digitados
     }
 }
 
 function corrige() {
-    comecarEtapa()
+    comecarEtapa(); // Reinicia a etapa atual
 }
 
 function confirma() {
-    //selecionar a etapa atual
-    let etapa = etapas[etapaAtual]
+    let etapa = etapas[etapaAtual]; // Seleciona a etapa atual
+    let votoConfirmado = false; // Inicializa a variável de confirmação do voto
 
-    //Inicializando uma variável se o voto foi confirmado
-    let votoConfirmado = false
-
-    //Verifica se o voto é em branco
-    if (votoBranco == true){
-        //Define o votoConfirmado como true
-        votoConfirmado = true
-
-        //Adicionar o voto em branco à lista de votos
-        votos.push({
-            etapa: etapas[etapaAtual].titulo,
-            voto: 'branco'
-        })
+    if (votoBranco) { // Verifica se o voto é em branco
+        votoConfirmado = true; // Confirma o voto
+        votos.push({ etapa: etapa.titulo, voto: 'branco' }); // Adiciona o voto em branco à lista de votos
+        console.log("Confirmando como BRANCO..."); // Log de confirmação
+    } else if (numero.length === etapa.numeros) { // Verifica se o número digitado tem a quantidade correta de dígitos
+        votoConfirmado = true; // Confirma o voto
+        votos.push({ etapa: etapa.titulo, voto: numero }); // Adiciona o voto à lista de votos
+        console.log("Confirmando como " + numero); // Log de confirmação
     }
 
-    //Exiber uma mensagem no console confirmado o voto em branco
-    console.log("Confirmando como Branco")
+    if (votoConfirmado) { // Se o voto foi confirmado
+        etapaAtual++; // Avança para a próxima etapa
+        if(etapaAtual == 1){
+            document.getElementById('sound').innerHTML =  '<audio src="sounds/confirma.mp3" autoplay></audio>'
+            comecarEtapa();
+        }else if (etapas[etapaAtual] !== undefined) {
+            comecarEtapa(); // Inicia a próxima etapa
+        } else {
+            document.querySelector('.tela').innerHTML = '<audio src="sounds/confirmaFinal.mp3" autoplay></audio> <div class="aviso--gigante pisca">FIM.</div>'; // Exibe mensagem de fim
+            console.log(votos); // Log da lista de votos
+        }
+    }
 }
 
-comecarEtapa()
+comecarEtapa(); // Inicia a primeira etapa
